@@ -3,6 +3,8 @@
 
 Making a Kubernetes cluster with some basic hardening configuration included.
 
+> [!WARNING]
+> this is some pretty old code and its poorly written, a rewrite is planned with better standardisation
 
 
 ### Binary Authorization
@@ -28,20 +30,3 @@ gcloud beta container binauthz attestations sign-and-create \
 --keyversion-key="${KMS_KEY_NAME}" \
 --keyversion="${KMS_KEY_VERSION}"
 ```
-
-
-#### Terrarform resources needed
-
-    - gke.tf
-        - google_container_cluster - default 
-            - enable_binary_authorization = true
-
-    - binary_authorization.tf
-        - google_binary_authorization_policy - default
-        - google_container_analysis_note - default-note
-        - google_kms_crypto_key_version - default-version
-        - google_binary_authorization_attestor - default
-    
-    - kms.tf
-        - google_kms_key_ring - image-auth-keyring
-        - google_kms_crypto_key - image-auth-asymmetric-sign-key
