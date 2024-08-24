@@ -33,7 +33,7 @@ resource "google_binary_authorization_policy" "default" {
 
 resource "google_container_analysis_note" "default-note" {
   count = local.binaryauthorizationcount
-  name = "test-attestor-note"
+  name  = "test-attestor-note"
   attestation_authority {
     hint {
       human_readable_name = "My attestor"
@@ -43,14 +43,14 @@ resource "google_container_analysis_note" "default-note" {
 
 
 data "google_kms_crypto_key_version" "default-version" {
-  count = local.binaryauthorizationcount
+  count      = local.binaryauthorizationcount
   crypto_key = google_kms_crypto_key.image-auth-asymmetric-sign-key.id
 }
 
 
 resource "google_binary_authorization_attestor" "default" {
   count = local.binaryauthorizationcount
-  name = "test-attestor"
+  name  = "test-attestor"
 
   attestation_authority_note {
     note_reference = google_container_analysis_note.default-note[count.index].name
