@@ -3,8 +3,10 @@
 
 Making a Kubernetes cluster with some basic hardening configuration included.
 
-> [!WARNING]
+> [!CAUTION]
 > this is some pretty old code and its poorly written, a rewrite is planned with better standardisation
+> 
+> edit: ohh wow i didnt realise `enable_binary_authorization` was deprecated also, so now its badly written and out of date :teehee:
 
 
 ### Binary Authorization
