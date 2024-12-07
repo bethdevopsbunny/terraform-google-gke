@@ -1,12 +1,3 @@
-variable "project" {
-  type    = string
-  default = ""
-}
-
-variable "key_stuff_name" {
-  type    = string
-  default = ""
-}
 
 variable "region" {
   type    = string
@@ -18,31 +9,37 @@ variable "zone" {
   default = "europe-west1-a"
 }
 
+variable "cluster_prefix" {
+  description = "cluster prefix set before a random string for the clusters name"
+  type        = string
+  default     = "cluster"
+}
+
 variable "gke_nodes" {
   default     = 1
   description = "number of gke nodes"
 }
 
-variable "enable_binary_authorization" {
-  type        = bool
-  default     = false
-  description = "turn on binary authorization"
-}
-
-variable "enable_shielded_nodes" {
-  type        = bool
-  default     = true
-  description = "turn off for testing only"
-}
-
-variable "master_auth_cidr_blocks" {
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-  description = " External network that can access Kubernetes master through HTTPS"
-}
-
 variable "preemptible" {
   type        = bool
-  default     = false
+  default     = true
   description = "A boolean that represents whether or not the underlying node VMs are preemptible."
+}
+
+variable "labels" {
+  description = "A map of labels to apply to contained resources."
+  default     = {}
+  type        = map(string)
+}
+
+variable "node_tags" {
+  description = "A list of node tags"
+  default     = []
+  type        = list(string)
+}
+
+variable "node_machine_type" {
+  description = "Primary nodes machine type"
+  default     = "e2-micro"
+  type        = string
 }
