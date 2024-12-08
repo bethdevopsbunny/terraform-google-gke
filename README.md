@@ -1,34 +1,54 @@
 # terraform-google-gke
 
+light kubernetes cluster for gke testing
 
-Making a Kubernetes cluster with some basic hardening configuration included.
+- single zone 
+- single node
+- non default pool
+- e2-micro
+- small node storage disk
 
-> [!CAUTION]
-> this is some pretty old code and its poorly written, a rewrite is planned with better standardisation
-> 
-> edit: ohh wow i didnt realise `enable_binary_authorization` was deprecated also, so now its badly written and out of date :teehee:
+## Requirements
 
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> v1.10.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 6.12.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.6.0 |
 
-### Binary Authorization
-Prevents non approved or signed images used within your project or specific kubernetes clusters.
-On a basic level you can whitelist registries or digests that you are happy to use within your environment.
-Though for regular release images you are not going to want to update the policy that frequently.
+## Providers
 
-That's where you would create a key in Google KMS and sign images (this is called creating an `attestation`) with it at the end of a ci pipeline.
-You attach this same key to an `attestor` who checks that the `attestation` is authentic before allowing a deployment into the cluster.
+| Name | Version |
+|------|---------|
+| <a name="provider_google"></a> [google](#provider\_google) | ~> 6.12.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.6.0 |
 
-You can sign an image at the end of a deployment pipeline using the gcloud cli full instructions can be found [here](https://cloud.google.com/binary-authorization/docs/making-attestations#gcloud)
-with the command looking like this, It's pretty self-explanatory.
+## Modules
 
-```
-gcloud beta container binauthz attestations sign-and-create \
---project="${ATTESTATION_PROJECT_ID}" \
---artifact-url="${IMAGE_TO_ATTEST}" \
---attestor="${ATTESTOR_NAME}" \
---attestor-project="${ATTESTOR_PROJECT_ID}" \
---keyversion-project="${KMS_KEY_PROJECT_ID}" \
---keyversion-location="${KMS_KEY_LOCATION}" \
---keyversion-keyring="${KMS_KEYRING_NAME}" \
---keyversion-key="${KMS_KEY_NAME}" \
---keyversion="${KMS_KEY_VERSION}"
-```
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [google_container_cluster.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster) | resource |
+| [google_container_node_pool.primary_nodes](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool) | resource |
+| [google_project_service.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
+| [random_string.default](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_cluster_prefix"></a> [cluster\_prefix](#input\_cluster\_prefix) | cluster prefix set before a random string for the clusters name | `string` | `"cluster"` | no |
+| <a name="input_gke_nodes"></a> [gke\_nodes](#input\_gke\_nodes) | number of gke nodes | `number` | `1` | no |
+| <a name="input_labels"></a> [labels](#input\_labels) | A map of labels to apply to contained resources. | `map(string)` | `{}` | no |
+| <a name="input_node_machine_type"></a> [node\_machine\_type](#input\_node\_machine\_type) | Primary nodes machine type | `string` | `"e2-micro"` | no |
+| <a name="input_node_tags"></a> [node\_tags](#input\_node\_tags) | A list of node tags | `list(string)` | `[]` | no |
+| <a name="input_preemptible"></a> [preemptible](#input\_preemptible) | A boolean that represents whether or not the underlying node VMs are preemptible. | `bool` | `true` | no |
+| <a name="input_region"></a> [region](#input\_region) | n/a | `string` | `"europe-west1"` | no |
+| <a name="input_zone"></a> [zone](#input\_zone) | n/a | `string` | `"europe-west1-a"` | no |
+
+## Outputs
+
+No outputs.
