@@ -9,12 +9,12 @@ variable "zone" {
   default = "europe-west1-a"
 }
 
-variable "cluster_prefix" {
-  description = "cluster prefix set before a random string for the clusters name"
+variable "cluster_name" {
+  description = "gke cluster name"
   type        = string
   default     = "cluster"
 }
-
+f
 variable "gke_nodes" {
   default     = 1
   description = "number of gke nodes"

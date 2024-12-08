@@ -1,6 +1,6 @@
 
 resource "google_container_cluster" "default" {
-  name                     = "${var.cluster_prefix}-${random_string.default.id}"
+  name                     = var.cluster_name
   remove_default_node_pool = true
   initial_node_count       = 1
   # by specifying a zone for location, only one 1 node is used
@@ -32,12 +32,7 @@ resource "google_container_node_pool" "primary_nodes" {
       disable-legacy-endpoints = true
     }
   }
-}
-
-resource "random_string" "default" {
-  length  = 5
-  special = false
-  upper   = false
-  lower   = true
-  numeric = true
+  lifecycle {
+    prevent_destroy = false
+  }
 }
